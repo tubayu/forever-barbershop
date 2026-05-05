@@ -2037,3 +2037,38 @@ footer {
     right: 14px;
   }
 }
+
+/* ============================================================
+   HERO LOGO — kolom kanan
+============================================================ */
+.hero-logo-col {
+  align-items: flex-start; /* sejajar dengan baris eyebrow di atas */
+  justify-content: center;
+  padding-top: 5rem; /* kompensasi py-5 kolom kiri agar eyebrow sejajar */
+}
+
+.hero-logo {
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 32px rgba(201, 168, 76, 0.22));
+  animation: heroLogoFloat 6s ease-in-out infinite;
+}
+
+@keyframes heroLogoFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ── Responsif: sembunyikan logo di bawah lg, sudah pakai d-none d-lg-flex ── */
+@media (max-width: 991px) {
+  .hero-logo-col {
+    display: none !important;
+  }
+}
