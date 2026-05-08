@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 14 60 62" role="img">
+<title>Forever Barber Bali Favicon</title>
+
+<g transform="translate(50,50)" fill="none" stroke="#000000" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M-4,-22 C-4,-12 -18,0 -18,0 C-24,7 -22,17 -14,19 C-6,21 0,15 0,8"/>
+  <path d="M4,-22 C4,-12 18,0 18,0 C24,7 22,17 14,19 C6,21 0,15 0,8"/>
+  <circle cx="0" cy="0" r="3" fill="#000000" stroke="none"/>
+  <line x1="-4" y1="-22" x2="-9" y2="-30" stroke-width="2.5"/>
+  <line x1="4" y1="-22" x2="9" y2="-30" stroke-width="2.5"/>
+</g>
+
+</svg>
