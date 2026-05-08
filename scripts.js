@@ -20,12 +20,12 @@ const io = new IntersectionObserver(
         // stagger siblings
         const siblings = [...e.target.parentElement.querySelectorAll(".fade-up")];
         const idx = siblings.indexOf(e.target);
-        setTimeout(() => e.target.classList.add("visible"), idx * 100);
+        setTimeout(() => e.target.classList.add("visible"), idx * 220);
         io.unobserve(e.target);
       }
     });
   },
-  { threshold: 0.12 },
+  { threshold: 0.07, rootMargin: "0px 0px -40px 0px" },
 );
 
 fadeEls.forEach((el) => io.observe(el));
@@ -246,7 +246,7 @@ document.addEventListener("keydown", (e) => {
 ============================================= */
 
 // ── Config ──────────────────────────────────────
-const AI_API_KEY = "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";
+const AI_API_KEY = "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";
 
 // Mapping gaya rambut — ikon, gambar referensi, dan alasan singkat
 const STYLE_META = {
