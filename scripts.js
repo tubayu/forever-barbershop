@@ -776,3 +776,95 @@ setTimeout(() => {
     document.getElementById("cs-notif-dot")?.classList.remove("hidden");
   }
 }, 3000);
+
+/* =============================================
+   CAMERA & MODE SWITCHER
+============================================= */
+let _cameraStream = null;
+let _currentMode = 'upload';
+
+function switchMode(mode) {
+  _currentMode = mode;
+
+  // Toggle buttons
+  document.getElementById('modeUploadBtn').classList.toggle('active', mode === 'upload');
+  document.getElementById('modeCameraBtn').classList.toggle('active', mode === 'camera');
+
+  // Toggle panels
+  document.getElementById('uploadMode').style.display = mode === 'upload' ? 'block' : 'none';
+  document.getElementById('cameraMode').style.display = mode === 'camera' ? 'block' : 'none';
+
+  if (mode === 'camera') {
+    startCamera();
+  } else {
+    stopCamera();
+  }
+}
+
+async function startCamera() {
+  try {
+    _cameraStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } },
+      audio: false
+    });
+    const video = document.getElementById('aiCameraVideo');
+    video.srcObject = _cameraStream;
+
+    // Show live view, hide preview
+    document.getElementById('cameraLiveWrap').style.display = 'block';
+    document.getElementById('cameraPreviewWrap').style.display = 'none';
+    document.getElementById('cameraBtns').style.display = 'flex';
+    document.getElementById('retakeBtn').style.display = 'none';
+    document.getElementById('aiAnalyzeBtn').disabled = true;
+  } catch (err) {
+    alert('Kamera tidak bisa dibuka. Pastikan browser punya izin akses kamera, lalu coba lagi.');
+    switchMode('upload');
+  }
+}
+
+function stopCamera() {
+  if (_cameraStream) {
+    _cameraStream.getTracks().forEach(t => t.stop());
+    _cameraStream = null;
+  }
+  const video = document.getElementById('aiCameraVideo');
+  if (video) video.srcObject = null;
+}
+
+function capturePhoto() {
+  const video = document.getElementById('aiCameraVideo');
+  const canvas = document.getElementById('aiCameraCanvas');
+
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  const ctx = canvas.getContext('2d');
+  // Flip horizontally (mirror) to match what user sees
+  ctx.translate(canvas.width, 0);
+  ctx.scale(-1, 1);
+  ctx.drawImage(video, 0, 0);
+
+  const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+  window._aiImageBase64 = dataUrl.split(',')[1];
+  window._aiImageType = 'image/jpeg';
+
+  // Show preview
+  document.getElementById('aiCameraPreview').src = dataUrl;
+  document.getElementById('cameraLiveWrap').style.display = 'none';
+  document.getElementById('cameraPreviewWrap').style.display = 'block';
+  document.getElementById('cameraBtns').style.display = 'none';
+  document.getElementById('retakeBtn').style.display = 'block';
+  document.getElementById('aiAnalyzeBtn').disabled = false;
+
+  // Stop stream to save battery
+  stopCamera();
+}
+
+function retakePhoto() {
+  window._aiImageBase64 = null;
+  window._aiImageType = null;
+  document.getElementById('aiAnalyzeBtn').disabled = true;
+  document.getElementById('cameraPreviewWrap').style.display = 'none';
+  document.getElementById('retakeBtn').style.display = 'none';
+  startCamera();
+}

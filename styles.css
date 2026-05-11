@@ -2072,3 +2072,145 @@ footer {
     display: none !important;
   }
 }
+
+/* =============================================
+   HOW TO USE GUIDE
+============================================= */
+.ai-howto-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.ai-howto-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(197,162,99,.18);
+  border-radius: 12px;
+  padding: 1rem .8rem;
+  width: 130px;
+  gap: .4rem;
+  transition: border-color .2s, background .2s;
+}
+.ai-howto-step:hover {
+  border-color: var(--gold);
+  background: rgba(197,162,99,.06);
+}
+.ai-howto-num {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: #0d0d0d;
+  font-size: .72rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.ai-howto-icon {
+  font-size: 1.5rem;
+  color: var(--gold);
+}
+.ai-howto-text {
+  font-size: .74rem;
+  color: rgba(244,239,228,.55);
+  line-height: 1.4;
+}
+.ai-howto-arrow {
+  color: rgba(197,162,99,.35);
+  font-size: 1.1rem;
+}
+@media (max-width: 575px) {
+  .ai-howto-row { gap: .3rem; }
+  .ai-howto-step { width: 70px; padding: .7rem .4rem; }
+  .ai-howto-icon { font-size: 1.1rem; }
+  .ai-howto-text { font-size: .65rem; }
+  .ai-howto-arrow { font-size: .8rem; }
+}
+
+/* =============================================
+   MODE TOGGLE
+============================================= */
+.ai-mode-toggle {
+  display: flex;
+  gap: .5rem;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(197,162,99,.2);
+  border-radius: 10px;
+  padding: .35rem;
+}
+.ai-mode-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  border-radius: 7px;
+  padding: .55rem 1rem;
+  font-size: .88rem;
+  color: rgba(244,239,228,.5);
+  cursor: pointer;
+  transition: all .2s;
+}
+.ai-mode-btn.active {
+  background: var(--gold);
+  color: #0d0d0d;
+  font-weight: 600;
+}
+.ai-mode-btn:not(.active):hover {
+  background: rgba(197,162,99,.1);
+  color: var(--gold);
+}
+
+/* =============================================
+   CAMERA
+============================================= */
+.ai-camera-wrap {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+  width: 100%;
+  aspect-ratio: 4/3;
+  max-height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#aiCameraVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1); /* mirror selfie */
+  display: block;
+}
+.ai-camera-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.ai-camera-face-guide {
+  width: 200px;
+  height: 240px;
+  border: 2.5px solid rgba(197,162,99,.7);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2000px rgba(0,0,0,.35);
+  animation: guideBreath 2.5s ease-in-out infinite;
+}
+@keyframes guideBreath {
+  0%,100% { transform: scale(1); border-color: rgba(197,162,99,.7); }
+  50%      { transform: scale(1.03); border-color: var(--gold); }
+}
+.ai-camera-hint {
+  position: absolute;
+  bottom: 12px;
+  left: 0; right: 0;
+  text-align: center;
+  font-size: .78rem;
+  color: rgba(255,255,255,.75);
+  text-shadow: 0 1px 4px rgba(0,0,0,.7);
+  margin: 0;
+}

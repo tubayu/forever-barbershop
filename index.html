@@ -864,45 +864,121 @@
   <section id="ai-analyzer" class="section-pad">
     <div class="container">
 
-      <div class="text-center mb-5 fade-up">
+      <div class="text-center mb-4 fade-up">
         <span class="section-eyebrow"><i class="bi bi-cpu me-2"></i>AI-Powered</span>
         <h2 class="section-title">Temukan Gaya Rambutmu<br><em>dengan AI</em></h2>
         <div class="gold-line mx-auto"></div>
-        <p
-          style="color:rgba(244,239,228,.55); max-width:520px; margin:.8rem auto 0; font-size:.95rem; line-height:1.7;">
-          Upload foto wajahmu dan biarkan AI kami menganalisa bentuk wajah,
-          lalu merekomendasikan gaya rambut terbaik untukmu.
+        <p style="color:rgba(244,239,228,.55); max-width:520px; margin:.8rem auto 0; font-size:.95rem; line-height:1.7;">
+          Upload foto atau ambil selfie langsung — AI kami akan menganalisa bentuk wajahmu
+          dan merekomendasikan gaya rambut terbaik untukmu.
         </p>
+      </div>
+
+      <!-- HOW TO USE GUIDE -->
+      <div class="ai-howto-row fade-up mb-4">
+        <div class="ai-howto-step">
+          <div class="ai-howto-num">1</div>
+          <div class="ai-howto-icon"><i class="bi bi-camera2"></i></div>
+          <div class="ai-howto-text">Ambil selfie atau upload foto wajah tampak depan</div>
+        </div>
+        <div class="ai-howto-arrow"><i class="bi bi-chevron-right"></i></div>
+        <div class="ai-howto-step">
+          <div class="ai-howto-num">2</div>
+          <div class="ai-howto-icon"><i class="bi bi-cpu"></i></div>
+          <div class="ai-howto-text">AI menganalisa bentuk wajahmu secara otomatis</div>
+        </div>
+        <div class="ai-howto-arrow"><i class="bi bi-chevron-right"></i></div>
+        <div class="ai-howto-step">
+          <div class="ai-howto-num">3</div>
+          <div class="ai-howto-icon"><i class="bi bi-scissors"></i></div>
+          <div class="ai-howto-text">Lihat rekomendasi gaya rambut yang paling cocok</div>
+        </div>
+        <div class="ai-howto-arrow"><i class="bi bi-chevron-right"></i></div>
+        <div class="ai-howto-step">
+          <div class="ai-howto-num">4</div>
+          <div class="ai-howto-icon"><i class="bi bi-calendar-check"></i></div>
+          <div class="ai-howto-text">Book langsung via WhatsApp atau form reservasi</div>
+        </div>
       </div>
 
       <div class="row justify-content-center">
         <div class="col-lg-8">
           <div class="ai-advisor-card fade-up">
 
-            <!-- STEP 1: Upload -->
+            <!-- STEP 1: Upload / Camera -->
             <div id="aiStep1">
-              <p class="ai-step-label"><span>01</span> Upload Foto Wajahmu</p>
-              <div class="ai-upload-area" id="aiDropZone" onclick="document.getElementById('aiFaceInput').click()"
-                ondragover="aiDragOver(event)" ondragleave="aiDragLeave(event)" ondrop="aiDrop(event)">
-                <input type="file" id="aiFaceInput" accept="image/*" style="display:none"
-                  onchange="aiPreviewImage(event)" />
-                <div id="aiUploadPlaceholder">
-                  <div class="ai-upload-icon"><i class="bi bi-camera-fill"></i></div>
-                  <p class="ai-upload-text">Klik atau seret foto ke sini</p>
-                  <p class="ai-upload-hint">JPG, PNG, WEBP &middot; Wajah tampak depan &middot; Pencahayaan cukup</p>
+              <p class="ai-step-label"><span>01</span> Pilih Cara Input Foto</p>
+
+              <!-- Mode toggle -->
+              <div class="ai-mode-toggle mb-3">
+                <button class="ai-mode-btn active" id="modeUploadBtn" onclick="switchMode('upload')">
+                  <i class="bi bi-upload me-2"></i>Upload Foto
+                </button>
+                <button class="ai-mode-btn" id="modeCameraBtn" onclick="switchMode('camera')">
+                  <i class="bi bi-camera-fill me-2"></i>Buka Kamera
+                </button>
+              </div>
+
+              <!-- UPLOAD MODE -->
+              <div id="uploadMode">
+                <div class="ai-upload-area" id="aiDropZone"
+                     onclick="document.getElementById('aiFaceInput').click()"
+                     ondragover="aiDragOver(event)"
+                     ondragleave="aiDragLeave(event)"
+                     ondrop="aiDrop(event)">
+                  <input type="file" id="aiFaceInput" accept="image/*" style="display:none"
+                         onchange="aiPreviewImage(event)" />
+                  <div id="aiUploadPlaceholder">
+                    <div class="ai-upload-icon"><i class="bi bi-cloud-arrow-up-fill"></i></div>
+                    <p class="ai-upload-text">Klik atau seret foto ke sini</p>
+                    <p class="ai-upload-hint">JPG, PNG, WEBP · Maks 10MB</p>
+                  </div>
+                  <div id="aiPreviewContainer" style="display:none; text-align:center;">
+                    <img id="aiFacePreview" alt="Preview" style="max-height:200px; border-radius:10px; max-width:100%; object-fit:cover;" />
+                    <p class="ai-upload-hint mt-2" style="color:var(--gold);">
+                      <i class="bi bi-check-circle me-1"></i>Foto siap dianalisa
+                    </p>
+                  </div>
                 </div>
-                <div id="aiPreviewContainer" style="display:none; text-align:center;">
-                  <img id="aiFacePreview" alt="Preview" />
+              </div>
+
+              <!-- CAMERA MODE -->
+              <div id="cameraMode" style="display:none;">
+                <div class="ai-camera-wrap" id="cameraLiveWrap">
+                  <video id="aiCameraVideo" autoplay playsinline muted></video>
+                  <canvas id="aiCameraCanvas" style="display:none;"></canvas>
+                  <div class="ai-camera-overlay">
+                    <div class="ai-camera-face-guide"></div>
+                  </div>
+                  <p class="ai-camera-hint">Posisikan wajah di dalam lingkaran &bull; Pencahayaan cukup</p>
+                </div>
+                <div id="cameraPreviewWrap" style="display:none; text-align:center;">
+                  <img id="aiCameraPreview" alt="Hasil foto" style="max-height:220px; border-radius:10px; max-width:100%; object-fit:cover;" />
                   <p class="ai-upload-hint mt-2" style="color:var(--gold);">
                     <i class="bi bi-check-circle me-1"></i>Foto siap dianalisa
                   </p>
                 </div>
+                <div class="d-flex gap-2 mt-3" id="cameraBtns">
+                  <button class="btn btn-gold flex-fill" id="captureBtn" onclick="capturePhoto()">
+                    <i class="bi bi-camera me-2"></i>Ambil Foto
+                  </button>
+                  <button class="btn btn-outline-danger flex-fill" onclick="stopCamera()">
+                    <i class="bi bi-x-circle me-2"></i>Tutup Kamera
+                  </button>
+                </div>
+                <button class="btn btn-outline-light w-100 mt-2" id="retakeBtn" style="display:none;" onclick="retakePhoto()">
+                  <i class="bi bi-arrow-counterclockwise me-2"></i>Foto Ulang
+                </button>
               </div>
-              <div class="ai-tips-row">
-                <div class="ai-tip"><i class="bi bi-lightbulb-fill"></i> Foto tampak depan</div>
-                <div class="ai-tip"><i class="bi bi-sun-fill"></i> Pencahayaan cukup</div>
-                <div class="ai-tip"><i class="bi bi-person-fill"></i> Wajah tidak tertutup</div>
+
+              <!-- Tips -->
+              <div class="ai-tips-row mt-3">
+                <div class="ai-tip"><i class="bi bi-lightbulb-fill"></i> Tampak depan</div>
+                <div class="ai-tip"><i class="bi bi-sun-fill"></i> Cahaya cukup</div>
+                <div class="ai-tip"><i class="bi bi-person-fill"></i> Wajah jelas</div>
+                <div class="ai-tip"><i class="bi bi-aspect-ratio-fill"></i> Jarak 30-50cm</div>
               </div>
+
               <button class="btn btn-gold w-100 mt-3" id="aiAnalyzeBtn" onclick="runAIAnalysis()" disabled>
                 <i class="bi bi-magic me-2"></i>Analisa Sekarang
               </button>
@@ -920,8 +996,7 @@
             <div id="aiStep3" style="display:none;">
               <div class="ai-result-header">
                 <div class="ai-result-badge"><i class="bi bi-cpu-fill me-2"></i>AI Analysis Complete</div>
-                <button class="ai-retry-btn" onclick="aiReset()"><i class="bi bi-arrow-counterclockwise me-1"></i>Coba
-                  Foto Lain</button>
+                <button class="ai-retry-btn" onclick="aiReset()"><i class="bi bi-arrow-counterclockwise me-1"></i>Coba Foto Lain</button>
               </div>
               <div class="ai-face-shape-box">
                 <span class="ai-face-label">Bentuk Wajahmu</span>
@@ -940,7 +1015,6 @@
           </div>
         </div>
       </div>
-
     </div>
   </section>
 
