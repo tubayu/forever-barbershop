@@ -246,7 +246,7 @@ document.addEventListener("keydown", (e) => {
 ============================================= */
 
 // ── Config ──────────────────────────────────────
-const AI_API_KEY = "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";
+const AI_API_KEY = "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";
 
 // Mapping gaya rambut — ikon, gambar referensi, dan alasan singkat
 const STYLE_META = {
